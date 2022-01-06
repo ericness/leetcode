@@ -5,21 +5,19 @@
 #
 
 # @lc code=start
-import collections
 from typing import List
 
 
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
-        previous_nums = set()
-        for num in nums:
-            if num in previous_nums:
-                return True
-            previous_nums.add(num)
-        return False
+        """Check if nums has duplicate elements.
+
+        Args:
+            nums (List[int]): List of ints
+
+        Returns:
+            bool: Does nums contain duplicates
+        """
+        return len(nums) > len(set(nums))
 
 # @lc code=end
-
-if __name__ == "__main__":
-    sol = Solution()
-    print(sol.containsDuplicate([1, 2, 3, 1]))
