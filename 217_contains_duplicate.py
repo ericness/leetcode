@@ -11,10 +11,12 @@ from typing import List
 
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
-        if not nums:
-            return False
-        collection = collections.Counter(nums)
-        return collection.most_common(1)[0][1] > 1 
+        previous_nums = set()
+        for num in nums:
+            if num in previous_nums:
+                return True
+            previous_nums.add(num)
+        return False
 
 # @lc code=end
 
