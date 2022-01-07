@@ -28,20 +28,15 @@ class Solution:
         """
         if not head:
             return None
-        nodes = []
         current_node = head
+        copied_node = copy.copy(head)
+        copied_node.next = None
         while current_node.next:
-            nodes.append(copy.copy(current_node))
             current_node = current_node.next
-        nodes.append(current_node)
-        nodes.reverse()
-        for index, node in enumerate(nodes):
-            next_index = index + 1
-            if next_index < len(nodes):
-                node.next = nodes[next_index]
-            else:
-                node.next = None
-        return nodes[0]
+            copied_node_prev = copy.copy(current_node)
+            copied_node_prev.next = copied_node
+            copied_node = copied_node_prev
+        return copied_node
 
 
 # @lc code=end
