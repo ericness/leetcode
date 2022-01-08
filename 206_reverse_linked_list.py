@@ -28,15 +28,39 @@ class Solution:
         """
         if not head:
             return None
-        current_node = head
-        copied_node = copy.copy(head)
-        copied_node.next = None
-        while current_node.next:
-            current_node = current_node.next
-            copied_node_prev = copy.copy(current_node)
-            copied_node_prev.next = copied_node
-            copied_node = copied_node_prev
-        return copied_node
+
+        prev_node = head
+        if prev_node.next:
+            current_node = prev_node.next
+            prev_node.next = None
+            if current_node.next:
+                next_node = current_node.next
+            # two nodes in list
+            else:
+                next_node = None
+        # one node in list
+        else:
+            return prev_node
+
+        while next_node:
+            current_node.next = prev_node
+            prev_node = current_node
+            current_node = next_node
+            next_node = next_node.next
+
+        current_node.next = prev_node
+        return current_node
 
 
 # @lc code=end
+
+if __name__ == "__main__":
+    five = ListNode(5, None)
+    four = ListNode(4, five)
+    three = ListNode(3, four)
+    two = ListNode(2, three)
+    one = ListNode(1, two)
+
+    solution = Solution()
+    result = solution.reverseList(one)
+    print(result)
