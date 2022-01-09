@@ -26,30 +26,15 @@ class Solution:
         Returns:
             Optional[ListNode]: Head node of the reversed list
         """
-        if not head:
-            return None
-
-        prev_node = head
-        if prev_node.next:
-            current_node = prev_node.next
-            prev_node.next = None
-            if current_node.next:
-                next_node = current_node.next
-            # two nodes in list
-            else:
-                next_node = None
-        # one node in list
-        else:
-            return prev_node
-
-        while next_node:
+        prev_node = None
+        current_node = head
+        while current_node:
+            next_node = current_node.next
             current_node.next = prev_node
             prev_node = current_node
             current_node = next_node
-            next_node = next_node.next
 
-        current_node.next = prev_node
-        return current_node
+        return prev_node
 
 
 # @lc code=end
