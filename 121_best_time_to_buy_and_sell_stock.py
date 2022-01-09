@@ -18,20 +18,14 @@ class Solution:
         Returns:
             int: Maximum profit
         """
-        lowest_index = 0
-        lowest_value = prices[0]
-        highest_index = 0
-        highest_value = prices[0]
+        max_profit = 0
 
-        for index, price in enumerate(prices):
-            if price > highest_value:
-                highest_index = index
-                highest_value = price
-            if price < lowest_value:
-                lowest_index = index
-                lowest_value = price
+        for low_index, low_price in enumerate(prices):
+            for high_index, high_price in enumerate(prices):
+                if high_index > low_index and high_price - low_price > max_profit:
+                    max_profit = high_price - low_price
 
-        return highest_value - lowest_value
+        return max_profit
 
 
 # @lc code=end
