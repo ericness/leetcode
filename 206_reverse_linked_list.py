@@ -38,14 +38,3 @@ class Solution:
 
 
 # @lc code=end
-
-if __name__ == "__main__":
-    five = ListNode(5, None)
-    four = ListNode(4, five)
-    three = ListNode(3, four)
-    two = ListNode(2, three)
-    one = ListNode(1, two)
-
-    solution = Solution()
-    result = solution.reverseList(one)
-    print(result)
