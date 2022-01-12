@@ -19,11 +19,17 @@ class Solution:
             int: Maximum profit
         """
         max_profit = 0
+        lowest_price = None
+        highest_price = None
 
-        for low_index, low_price in enumerate(prices):
-            for high_index, high_price in enumerate(prices):
-                if high_index > low_index and high_price - low_price > max_profit:
-                    max_profit = high_price - low_price
+        for price in prices:
+            if lowest_price is None or price < lowest_price:
+                lowest_price = price
+                highest_price = price
+            if highest_price is None or price > highest_price:
+                highest_price = price
+                if highest_price - lowest_price > max_profit:
+                    max_profit = highest_price - lowest_price
 
         return max_profit
 
