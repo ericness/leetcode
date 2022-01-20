@@ -20,24 +20,19 @@ class Solution:
             List[int]: Array of products
         """
         array_length = len(nums)
-        prefix_products = [1] * array_length
-        suffix_products = [1] * array_length
-        result = []
+        prefix = 1
+        suffix = 1
+        result = [1] * array_length
 
         for i in range(1, array_length):
-            prefix_products[i] = nums[i - 1] * prefix_products[i - 1]
+            prefix *= nums[i - 1]
+            result[i] *= prefix
+
             suffix_i = array_length - i - 1
-            suffix_products[suffix_i] = (
-                nums[suffix_i + 1] * suffix_products[suffix_i + 1]
-            )
-        for i in range(array_length):
-            result.append(prefix_products[i] * suffix_products[i])
+            suffix *= nums[suffix_i + 1]
+            result[suffix_i] *= suffix
+
         return result
 
 
 # @lc code=end
-
-if __name__ == "__main__":
-    sol = Solution()
-    answer = sol.productExceptSelf([22, 33, 44, 55])
-    print(answer)
