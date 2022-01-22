@@ -5,9 +5,19 @@
 #
 
 # @lc code=start
+from typing import List
+
+
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
+        """Find subarray with largest sum
 
+        Args:
+            nums (List[int]): Array of numbers
+
+        Returns:
+            int: Sum of max subarray
+        """
         max_sum = -10001
         for i in range(len(nums)):
             for j in range(len(nums)):
