@@ -18,29 +18,17 @@ class Solution:
         Returns:
             int: Sum of max subarray
         """
-        array_size = len(nums)
-        left_current = 0
-        left_min = -10001
-        left_index = 0
-        right_current = 0
-        right_min = -10001
-        right_index = 0
-        for i in range(array_size):
-            if nums[i] + left_current > left_min:
-                left_max = left_current + nums[i]
-                left_index = i
+        current = 0
+        max_sum = -10001
 
-            left_current += nums[i]
+        for num in nums:
+            if current < 0:
+                current = 0
+            current += num
+            if current > max_sum:
+                max_sum = current
 
-        for i in range(array_size):
-            j = array_size - i - 1
-            if nums[j] + left_current > left_max:
-                left_max = left_current + nums[j]
-                left_index = j
-
-            left_current += nums[j]
-
-        return right_max - left_max
+        return max_sum
 
 
 # @lc code=end
@@ -48,6 +36,8 @@ class Solution:
 if __name__ == "__main__":
     sol = Solution()
     result = sol.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4])
+    result = sol.maxSubArray([-3, -2, -1])
     result = sol.maxSubArray([1, 1, -10, 2, 2])
-    # result = sol.maxSubArray([-4, -3, -2, -1])
+    result = sol.maxSubArray([7, 8, -1, 9, 10])
+    result = sol.maxSubArray([-4, -3, -2, -1])
     print(result)
