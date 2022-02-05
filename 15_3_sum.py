@@ -3,8 +3,10 @@
 #
 # [15] 3Sum
 #
-
 # @lc code=start
+
+import copy
+from collections import defaultdict
 from typing import List
 
 
@@ -19,16 +21,29 @@ class Solution:
             List[List[int]]: List of triplets that sum to zero
 
         """
-        nums_map = {num: index for index, num in enumerate(nums)}
+        nums_so_far = []
+        sums = defaultdict(list)
         result = []
-        for i in range(len(nums)):
-            for j in range(i + 1, len(nums)):
-                negative_sum = -(nums[i] + nums[j])
-                if negative_sum in nums_map and nums_map[negative_sum] not in [i, j]:
-                    triplet = sorted([nums[i], nums[j], negative_sum])
-                    if triplet not in result:
-                        result.append(triplet)
+
+        for num in nums:
+            if -(num) in sums:
+                for two_sum in sums[-(num)]:
+                    new_result = copy.deepcopy(two_sum)
+                    new_result.append(num)
+                    new_result = sorted(new_result)
+                    if new_result not in result:
+                        result.append(new_result)
+            for num_so_far in nums_so_far:
+                sum = num_so_far + num
+                if [num_so_far, num] not in sums[sum]:
+                    sums[sum].append([num_so_far, num])
+            nums_so_far.append(num)
         return result
 
 
 # @lc code=end
+
+if __name__ == "__main__":
+    sol = Solution()
+    y = sol.threeSum([-1, 0, 1, 2, -1, -4])
+    x = sol.threeSum([1, 2, 3, 4, 5, -7])
