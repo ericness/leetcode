@@ -19,14 +19,15 @@ class Solution:
             List[List[int]]: List of triplets that sum to zero
 
         """
+        nums_map = {num: index for index, num in enumerate(nums)}
         result = []
         for i in range(len(nums)):
             for j in range(i + 1, len(nums)):
-                for k in range(j + 1, len(nums)):
-                    if nums[i] + nums[j] + nums[k] == 0:
-                        triplet = sorted([nums[i], nums[j], nums[k]])
-                        if triplet not in result:
-                            result.append(triplet)
+                negative_sum = -(nums[i] + nums[j])
+                if negative_sum in nums_map and nums_map[negative_sum] not in [i, j]:
+                    triplet = sorted([nums[i], nums[j], negative_sum])
+                    if triplet not in result:
+                        result.append(triplet)
         return result
 
 
