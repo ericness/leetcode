@@ -9,7 +9,11 @@ from typing import List
 
 
 class Solution:
-    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+    """Solution class for Two Sum"""
+
+    def twoSum(  # pylint: disable=invalid-name
+        self, numbers: List[int], target: int
+    ) -> List[int]:
         """Find the indices of the two numbers that add to target.
 
         Args:
@@ -19,9 +23,9 @@ class Solution:
         Returns:
             List[int]: List of two indices added by one
         """
-        for base_index in range(len(numbers)):
+        for base_index, base_value in enumerate(numbers):
             search_index = self.search_value(
-                numbers[base_index + 1 :], target - numbers[base_index]
+                numbers[base_index + 1 :], target - base_value
             )
             if search_index >= 0:
                 return [base_index + 1, base_index + search_index + 2]
@@ -38,16 +42,19 @@ class Solution:
         Returns:
             int: Index of value
         """
-        current = (len(numbers) - 1) // 2
-        level = 0
-        while len(numbers) >= 2 ** level:
-            level += 1
-            if numbers[current] < value:
-                current = current + max(len(numbers) // 2 ** (level + 1), 1)
-            elif numbers[current] > value:
-                current = current - max(len(numbers) // 2 ** (level + 1), 1)
+        lower_bound = 0
+        upper_bound = len(numbers) - 1
+
+        while upper_bound >= lower_bound:
+            midpoint = (upper_bound + lower_bound) // 2
+            value_at_midpoint = numbers[midpoint]
+
+            if value_at_midpoint > value:
+                upper_bound = midpoint - 1
+            elif value_at_midpoint < value:
+                lower_bound = midpoint + 1
             else:
-                return current
+                return midpoint
         return -1
 
 
@@ -56,5 +63,5 @@ class Solution:
 if __name__ == "__main__":
     sol = Solution()
     # x = sol.search_value([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 8)
-    y = sol.twoSum([0, 0, 0, 0, 0, 1, 1], 2)
+    y = sol.twoSum([0, 0, 0, 0, 0, 0, 2, 3, 9, 9, 9, 9, 9, 9], 5)
     print(y)
