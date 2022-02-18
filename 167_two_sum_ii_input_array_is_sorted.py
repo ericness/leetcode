@@ -23,39 +23,20 @@ class Solution:
         Returns:
             List[int]: List of two indices added by one
         """
-        for base_index, base_value in enumerate(numbers):
-            search_index = self.search_value(
-                numbers[base_index + 1 :], target - base_value
-            )
-            if search_index >= 0:
-                return [base_index + 1, base_index + search_index + 2]
-        raise ValueError("No solution found")
+        lower_index = 0
+        upper_index = len(numbers) - 1
 
-    def search_value(self, numbers: List[int], value: int) -> int:
-        """Find the index of `value` in `numbers`. Otherwise
-        return -1.
-
-        Args:
-            numbers (List[int]): Array of numbers to search
-            value (int): Value to search for
-
-        Returns:
-            int: Index of value
-        """
-        lower_bound = 0
-        upper_bound = len(numbers) - 1
-
-        while upper_bound >= lower_bound:
-            midpoint = (upper_bound + lower_bound) // 2
-            value_at_midpoint = numbers[midpoint]
-
-            if value_at_midpoint > value:
-                upper_bound = midpoint - 1
-            elif value_at_midpoint < value:
-                lower_bound = midpoint + 1
+        while lower_index < upper_index:
+            lower_value = numbers[lower_index]
+            upper_value = numbers[upper_index]
+            lower_upper_sum = lower_value + upper_value
+            if lower_upper_sum == target:
+                return [lower_index + 1, upper_index + 1]
+            elif lower_upper_sum < target:
+                lower_index += 1
             else:
-                return midpoint
-        return -1
+                upper_index -= 1
+        raise ValueError("No solution found")
 
 
 # @lc code=end

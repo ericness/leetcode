@@ -4,14 +4,15 @@
 # [15] 3Sum
 #
 # @lc code=start
-
-import copy
-from collections import defaultdict
 from typing import List
 
 
 class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
+    """Solution class for three sum"""
+
+    def threeSum(  # pylint: disable=invalid-name
+        self, nums: List[int]
+    ) -> List[List[int]]:
         """Find unique triplets that sum to zero.
 
         Args:
@@ -21,23 +22,32 @@ class Solution:
             List[List[int]]: List of triplets that sum to zero
 
         """
+        current_index = 0
         result = []
-        for i in range(len(nums)):
-            nums_set = set()
-            for j in range(i + 1, len(nums)):
-                if -(nums[i] + nums[j]) in nums_set:
-                    new_result = sorted(
-                        [
-                            nums[i],
-                            nums[j],
-                            -(nums[i] + nums[j]),
-                        ]
-                    )
+        sorted_nums = sorted(nums)
+        while current_index < len(sorted_nums) and sorted_nums[current_index] <= 0:
+            current = sorted_nums[current_index]
+            lower_index = current_index + 1
+            upper_index = len(sorted_nums) - 1
+            while lower_index < upper_index:
+                lower = sorted_nums[lower_index]
+                upper = sorted_nums[upper_index]
+                if lower + upper + current > 0:
+                    upper_index -= 1
+                elif lower + upper + current < 0:
+                    lower_index += 1
+                else:
+                    new_result = [
+                        current,
+                        lower,
+                        upper,
+                    ]
                     if new_result not in result:
                         result.append(new_result)
-                else:
-                    nums_set.add(nums[j])
+                    upper_index -= 1
+                    lower_index += 1
 
+            current_index += 1
         return result
 
 
@@ -46,4 +56,6 @@ class Solution:
 if __name__ == "__main__":
     sol = Solution()
     y = sol.threeSum([-1, 0, 1, 2, -1, -4])
+    print(y)
     x = sol.threeSum([1, 2, 3, 4, 5, -7])
+    print(x)
