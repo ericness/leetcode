@@ -10,6 +10,14 @@ from typing import List
 
 class Solution:
     def findMin(self, nums: List[int]) -> int:
+        """Find minimum element in rotated sorted array.
+
+        Args:
+            nums (List[int]): Rotated sorted array
+
+        Returns:
+            int: Minimum value
+        """
         left = 0
         center = len(nums) // 2
         right = len(nums) - 1
