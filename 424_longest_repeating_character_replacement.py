@@ -25,45 +25,50 @@ class Solution:
         max_length = 0
 
         for index, char in enumerate(s):
-            positions[char].append(index)
+            if char not in positions.keys():
+                positions[char] = [0] * len(s)
+            positions[char][index] = 1
 
-        for indexes in positions.values():
-            index_length = len(indexes)
-            diffs = [
-                indexes[j] - indexes[i] - 1
-                for i, j in zip(range(index_length - 1), range(1, index_length))
-            ]
-            diffs.insert(0, indexes[0])
-            diffs.append(len(s) - 1 - indexes[-1])
+        for char_array in positions.values():
+            char_length = self.calculate_length(char_array, k)
+            if char_length > max_length:
+                max_length = char_length
 
-        return 0
+        return max_length
 
-    def calculate_length(self, diffs: List[int], k: int) -> int:
+    def calculate_length(self, char_positions: List[int], k: int) -> int:
         """Calculate maximum sequence length based
-        on the differences between character positions
+        on the character positions
 
         Args:
-            diffs (List[int]): List of position differences
+            diffs (List[int]): List of character position
             k (int): Number of characters to replace
 
         Returns:
             int: Maximum length of replacement
         """
         behind, ahead = 0, 0
-        current_k = diffs[0]
+        match_count = 1 if char_positions[0] == 1 else 0
+        nonmatch_count = 1 if char_positions[0] == 0 else 0
         max_length = 0
 
-        while ahead < len(diffs):
-            if current_k <= k:
+        while ahead < len(char_positions):
+            if nonmatch_count <= k:
                 ahead += 1
-                if ahead == len(diffs):
+                if ahead == len(char_positions):
                     break
-                current_k += diffs[ahead]
+                if char_positions[ahead] == 1:
+                    match_count += 1
+                else:
+                    nonmatch_count += 1
             else:
+                if char_positions[behind] == 1:
+                    match_count -= 1
+                else:
+                    nonmatch_count -= 1
                 behind += 1
-                current_k -= diffs[behind]
-            length = ahead - behind + current_k
-            if length > max_length and current_k <= k:
+            length = match_count + nonmatch_count
+            if length > max_length and nonmatch_count <= k:
                 max_length = length
 
         return max_length
@@ -73,5 +78,5 @@ class Solution:
 if __name__ == "__main__":
     sol = Solution()
     # res = sol.characterReplacement("aabbcba", 3)
-    res = sol.calculate_length([1, 2, 1], 2)
+    res = sol.calculate_length([1, 1, 0, 1, 0, 0, 1], 1)
     print(res)
