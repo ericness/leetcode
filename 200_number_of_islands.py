@@ -38,8 +38,9 @@ class Solution:
         for row in range(row_count):
             for col in range(col_count):
                 node = Node(row, col)
-                if grid[node.row][node.col] == "1":
-                    breadth_first_search(grid, visited, node)
+                if grid[node.row][node.col] == "1" and node not in visited:
+                    island_visited = breadth_first_search(grid, visited, node)
+                    visited = visited.union(island_visited)
                     number_islands += 1
         return number_islands
 
@@ -59,6 +60,7 @@ def breadth_first_search(
     row_count = len(grid)
     col_count = len(grid[0])
     local_visited = set()
+    local_visited.add(node)
     node_queue = collections.deque()
     node_queue.append(node)
 
@@ -71,15 +73,27 @@ def breadth_first_search(
             )
 
             if (
-                0 < new_node.row < row_count
-                and 0 < new_node.col < col_count
+                0 <= new_node.row < row_count
+                and 0 <= new_node.col < col_count
                 and new_node not in visited
                 and new_node not in local_visited
-                and grid[new_node.row][new_node.col] == "1"
             ):
-                node_queue.append(new_node)
-            local_visited.add(new_node)
+                if grid[new_node.row][new_node.col] == "1":
+                    node_queue.append(new_node)
+                local_visited.add(new_node)
     return local_visited
 
 
 # @lc code=end
+
+if __name__ == "__main__":
+    sol = Solution()
+    for _ in range(10000):
+        result = sol.numIslands(
+            [
+                ["1", "1", "1", "1", "0"],
+                ["1", "1", "0", "1", "0"],
+                ["1", "1", "0", "0", "0"],
+                ["0", "0", "0", "0", "0"],
+            ]
+        )
