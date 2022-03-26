@@ -28,15 +28,17 @@ class Solution:
         """
         length = 0
         current = head
+        nodes = {}
         while current:
+            nodes[length] = current
             current = current.next
             length += 1
 
         node_to_remove = length - n
-        current = head
-        for _ in range(node_to_remove - 1):
-            current = current.next
-        if current.next:
+        current = nodes[max(node_to_remove - 1, 0)]
+        if current == head and node_to_remove == 0:
+            head = current.next
+        elif current.next:
             current.next = current.next.next
         else:
             current.next = None
@@ -47,12 +49,13 @@ class Solution:
 # @lc code=end
 
 if __name__ == "__main__":
-    five = ListNode(5, None)
-    four = ListNode(4, five)
-    three = ListNode(3, four)
-    two = ListNode(2, three)
+    # five = ListNode(5, None)
+    # four = ListNode(4, five)
+    # three = ListNode(3, four)
+    two = ListNode(2, None)
     one = ListNode(1, two)
+    # one = ListNode(1, None)
 
     sol = Solution()
-    result = sol.removeNthFromEnd(one, 2)
+    result = sol.removeNthFromEnd(one, 1)
     print(result)
