@@ -26,33 +26,31 @@ class Solution:
         Returns:
             Optional[ListNode]: Modified list
         """
-        length = 0
-        current = head
-        nodes = {}
-        while current:
-            nodes[length] = current
-            current = current.next
-            length += 1
+        dummy = ListNode(0, head)
+        left = dummy
+        right = head
 
-        node_to_remove = length - n
-        current = nodes[max(node_to_remove - 1, 0)]
-        if current == head and node_to_remove == 0:
-            head = current.next
-        elif current.next:
-            current.next = current.next.next
-        else:
-            current.next = None
+        node_index = 0
+        while node_index < n:
+            right = right.next
+            node_index += 1
 
-        return head
+        while right:
+            right = right.next
+            left = left.next
+
+        left.next = left.next.next
+
+        return dummy.next
 
 
 # @lc code=end
 
 if __name__ == "__main__":
-    # five = ListNode(5, None)
-    # four = ListNode(4, five)
-    # three = ListNode(3, four)
-    two = ListNode(2, None)
+    five = ListNode(5, None)
+    four = ListNode(4, five)
+    three = ListNode(3, four)
+    two = ListNode(2, three)
     one = ListNode(1, two)
     # one = ListNode(1, None)
 
