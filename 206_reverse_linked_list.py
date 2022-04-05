@@ -6,7 +6,6 @@
 
 # @lc code=start
 # Definition for singly-linked list.
-import copy
 from typing import Optional
 
 
@@ -18,23 +17,18 @@ class ListNode:
 
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        """Reverse the order of a single linked list
+        if not head or not head.next:
+            return head
+        left, right = head, head.next
+        left.next = None
 
-        Args:
-            head (Optional[ListNode]): Head node of the list
+        while right:
+            next = right.next
+            right.next = left
+            left = right
+            right = next
 
-        Returns:
-            Optional[ListNode]: Head node of the reversed list
-        """
-        prev_node = None
-        current_node = head
-        while current_node:
-            next_node = current_node.next
-            current_node.next = prev_node
-            prev_node = current_node
-            current_node = next_node
-
-        return prev_node
+        return left
 
 
 # @lc code=end
